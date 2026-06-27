@@ -23,6 +23,21 @@ config.json
 .vscode/
 .idea/
 
+# Personal profiles (not for sharing)
+profiles/dorm_girls/
+profiles/profile_32d948ea/
+profiles/profile_9b958ae8/
+profiles/profile_9cf52dbd/
+
+# Personal character backups
+characters/
+
+# Build scripts with mirrors
+build_with_mirror.sh
+
+# Test scripts
+diag.py
+
 # OS
 .DS_Store
 Thumbs.db
