@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Buildozer
+.buildozer/
+bin/
+
+# Backups
+backup/
+
+# Fonts (too large, download separately)
+*.ttf
+
+# Sensitive config (contains API key)
+config.json
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
