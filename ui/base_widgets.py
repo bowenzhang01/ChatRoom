@@ -57,7 +57,7 @@ class StatusDot(Widget):
 
 
 class RoundedButton(Button):
-    """圆角按钮基类 — v2.0: 主题令牌 + 可选投影"""
+    """圆角按钮基类 — v2.0: 主题令牌 + 可选投影 + 按压变色"""
     def __init__(self, btn_color=None, radius=None, shadow=False, **kwargs):
         super().__init__(**kwargs)
         self._btn_color = btn_color or theme.GRAY_500
@@ -67,17 +67,18 @@ class RoundedButton(Button):
         self.font_name = config.FONT_DEFAULT
         self.bold = True
 
-        # 阴影 (在最底层)
+        self._normal_rgba = hex_to_rgba(self._btn_color)
+
         if shadow:
             self._sd_color, self._sd_rect = draw_shadow(self, radius=self._radius)
 
         with self.canvas.before:
             from kivy.graphics import Color as GColor, RoundedRectangle
-            self._bg_color = GColor(*hex_to_rgba(self._btn_color))
+            self._bg_color = GColor(*self._normal_rgba)
             self._bg_rect = RoundedRectangle(
                 radius=[self._radius, self._radius, self._radius, self._radius]
             )
-        self.bind(pos=self._update_bg, size=self._update_bg)
+        self.bind(pos=self._update_bg, size=self._update_bg, state=self._on_press_state)
 
     def _update_bg(self, *args):
         self._bg_rect.pos = self.pos
@@ -87,29 +88,14 @@ class RoundedButton(Button):
         if isinstance(color, str):
             color = hex_to_rgba(color)
         self._btn_color = color
+        self._normal_rgba = color
         self._bg_color.rgba = color
 
     def get_bg_color(self):
         return self._btn_color
 
-
-class ColoredButton(RoundedButton):
-    """v2.0: 圆角按钮 + 缩放按压动画 + 投影"""
-    def __init__(self, btn_color=None, shadow=True, **kwargs):
-        _color = btn_color or theme.accent
-        super().__init__(btn_color=_color, radius=theme.radius_md, shadow=shadow, **kwargs)
-        self._normal_color = _color
-        self._pressed_color = self._darken(_color, 0.78)
-        self.color = (1, 1, 1, 1)
-        self.font_size = dp(12)
-        self.size_hint_y = None
-        self.height = dp(40)
-        self.bind(size=self._update_padding, state=self._on_press_state)
-
-    def _update_padding(self, *args):
-        self.padding = (dp(8), dp(6))
-
-    def _darken(self, hex_color_val, factor):
+    @staticmethod
+    def _darken(hex_color_val, factor):
         h = hex_color_val.lstrip("#")
         if len(h) == 6:
             r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
@@ -119,25 +105,40 @@ class ColoredButton(RoundedButton):
 
     def _on_press_state(self, instance, state):
         if state == "down":
+            r, g, b, a = self._normal_rgba
+            self._bg_color.rgba = (r * 0.78, g * 0.78, b * 0.78, a)
+        else:
+            self._bg_color.rgba = self._normal_rgba
+
+
+class ColoredButton(RoundedButton):
+    """v2.0: 圆角按钮 + 颜色变暗按压动画 + 投影"""
+    def __init__(self, btn_color=None, shadow=True, **kwargs):
+        _color = btn_color or theme.accent
+        super().__init__(btn_color=_color, radius=theme.radius_md, shadow=shadow, **kwargs)
+        self._normal_color = _color
+        self._pressed_color = self._darken(_color, 0.78)
+        self.color = (1, 1, 1, 1)
+        self.font_size = dp(12)
+        self.size_hint_y = None
+        self.height = dp(40)
+        self.bind(size=self._update_padding)
+
+    def _update_padding(self, *args):
+        self.padding = (dp(8), dp(6))
+
+    def _on_press_state(self, instance, state):
+        if state == "down":
             self._bg_color.rgba = hex_to_rgba(self._pressed_color)
-            # 缩放动画
-            from ui.animations import button_press_anim
-            button_press_anim(self)
         else:
             self._bg_color.rgba = hex_to_rgba(self._normal_color)
-            from ui.animations import button_release_anim
-            button_release_anim(self)
 
     def set_btn_color(self, color):
         self._normal_color = color if isinstance(color, str) else color
         self._pressed_color = self._darken(self._normal_color, 0.78)
+        self._normal_rgba = hex_to_rgba(self._normal_color)
         if hasattr(self, '_bg_color'):
-            self._bg_color.rgba = hex_to_rgba(self._normal_color)
-
-    def on_touch_down(self, touch):
-        if self.collide_point(*touch.pos):
-            self._orig_size = self.size
-        return super().on_touch_down(touch)
+            self._bg_color.rgba = self._normal_rgba
 
 
 class FitSpinnerOption(Button):
@@ -176,7 +177,6 @@ class FitSpinner(Spinner):
         self.halign = 'center'
         self.valign = 'middle'
 
-        # 背景样式
         if not self.background_normal:
             self.background_normal = ""
         if self.background_color in (None, (1, 1, 1, 1)):

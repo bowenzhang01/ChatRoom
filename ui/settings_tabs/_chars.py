@@ -241,10 +241,13 @@ class CharsTabMixin:
         self.app._save_turn_order()
         self.app._reload_data()
         self._refresh_char_spinner()
-        self._char_spinner.text = base
-        self._load_char_fields(base)
+        for i, name in enumerate(self._char_names_list):
+            if name == base:
+                self._char_spinner.text = self._char_spinner.values[i]
+                break
+        Clock.schedule_once(lambda dt: self._load_char_fields(base), 0.15)
 
-    def _del_char(self):
+    def _del_char(self, *args):
         name = self._get_selected_char_name()
         if len(self.app.characters) <= 1 or name == "You":
             return

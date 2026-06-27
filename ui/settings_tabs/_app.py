@@ -56,26 +56,22 @@ class AppTabMixin:
         )
         profile_row.add_widget(self._profile_spinner)
 
-        switch_btn = Button(
+        switch_btn = RoundedButton(
+            btn_color="#ff8a65",
             text="切换",
             size_hint_x=None, width=dp(60),
-            background_normal="",
-            background_color=hex_to_rgba("#ff8a65"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         switch_btn.bind(on_release=self._switch_profile)
         profile_row.add_widget(switch_btn)
 
-        rename_profile_btn = Button(
+        rename_profile_btn = RoundedButton(
+            btn_color="#42a5f5",
             text="重命名",
             size_hint_x=None, width=dp(70),
-            background_normal="",
-            background_color=hex_to_rgba("#42a5f5"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         rename_profile_btn.bind(on_release=self._rename_profile)
         profile_row.add_widget(rename_profile_btn)
@@ -83,38 +79,32 @@ class AppTabMixin:
 
         # 第二行：新建 + 删除 + AI创建
         action_row = BoxLayout(size_hint_y=None, height=dp(40), spacing=dp(4))
-        new_profile_btn = Button(
+        new_profile_btn = RoundedButton(
+            btn_color="#66bb6a",
             text="新建",
             size_hint_x=1,
-            background_normal="",
-            background_color=hex_to_rgba("#66bb6a"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         new_profile_btn.bind(on_release=self._create_new_profile)
         action_row.add_widget(new_profile_btn)
 
-        del_profile_btn = Button(
+        del_profile_btn = RoundedButton(
+            btn_color="#ef5350",
             text="删除",
             size_hint_x=1,
-            background_normal="",
-            background_color=hex_to_rgba("#ef5350"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         del_profile_btn.bind(on_release=self._delete_current_profile)
         action_row.add_widget(del_profile_btn)
 
-        ai_create_btn = Button(
+        ai_create_btn = RoundedButton(
+            btn_color="#7e57c2",
             text="AI创建",
             size_hint_x=1,
-            background_normal="",
-            background_color=hex_to_rgba("#7e57c2"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         ai_create_btn.bind(on_release=self._ai_create_profile)
         action_row.add_widget(ai_create_btn)
@@ -153,41 +143,35 @@ class AppTabMixin:
         )
         chat_row.add_widget(self._chat_spinner)
 
-        rename_btn = Button(
+        rename_btn = RoundedButton(
+            btn_color="#42a5f5",
             text="重命名",
             size_hint_x=None,
             width=dp(70),
-            background_normal="",
-            background_color=hex_to_rgba("#42a5f5"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         rename_btn.bind(on_release=self._rename_selected_chat)
         chat_row.add_widget(rename_btn)
 
-        load_btn = Button(
+        load_btn = RoundedButton(
+            btn_color="#66bb6a",
             text="读取",
             size_hint_x=None,
             width=dp(56),
-            background_normal="",
-            background_color=hex_to_rgba("#66bb6a"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         load_btn.bind(on_release=self._load_selected_chat)
         chat_row.add_widget(load_btn)
 
-        del_chat_btn = Button(
+        del_chat_btn = RoundedButton(
+            btn_color="#ef5350",
             text="删除",
             size_hint_x=None,
             width=dp(56),
-            background_normal="",
-            background_color=hex_to_rgba("#ef5350"),
             color=(1, 1, 1, 1),
             font_size=dp(10),
-            bold=True,
         )
         del_chat_btn.bind(on_release=self._delete_selected_chat)
         chat_row.add_widget(del_chat_btn)
@@ -197,17 +181,17 @@ class AppTabMixin:
 
         # Save/export buttons
         btns_row = BoxLayout(size_hint_y=None, height=dp(40), spacing=dp(6))
-        save_chat_btn = Button(
+        save_chat_btn = RoundedButton(
+            btn_color="#7e57c2",
             text="保存当前对话",
-            background_normal="", background_color=hex_to_rgba("#7e57c2"),
-            color=(1, 1, 1, 1), font_size=dp(11), bold=True,
+            color=(1, 1, 1, 1), font_size=dp(11),
         )
         save_chat_btn.bind(on_release=self._save_chat_from_settings)
         btns_row.add_widget(save_chat_btn)
 
-        copy_btn = Button(
+        copy_btn = RoundedButton(
+            btn_color="#42a5f5",
             text="复制全部对话",
-            background_normal="", background_color=hex_to_rgba("#42a5f5"),
             color=(1, 1, 1, 1), font_size=dp(11),
         )
         copy_btn.bind(on_release=self._copy_chat_log)
@@ -245,34 +229,29 @@ class AppTabMixin:
         )
         content.add_widget(msg)
         btns = BoxLayout(size_hint_y=None, height=dp(44), spacing=dp(8), padding=(dp(8), 0))
-        btn_cancel = Button(
+        btn_cancel = RoundedButton(
+            btn_color="#78909c",
             text="取消",
             font_name=config.FONT_DEFAULT,
-            background_normal="",
-            background_color=hex_to_rgba("#78909c"),
             color=(1, 1, 1, 1),
             font_size=dp(11),
         )
-        btn_confirm = Button(
+        btn_confirm = RoundedButton(
+            btn_color="#ff8a65",
             text="确定切换",
             font_name=config.FONT_DEFAULT,
-            background_normal="",
-            background_color=hex_to_rgba("#ff8a65"),
             color=(1, 1, 1, 1),
             font_size=dp(11),
-            bold=True,
         )
         btns.add_widget(btn_cancel)
 
         if has_unsaved:
-            btn_save_switch = Button(
+            btn_save_switch = RoundedButton(
+                btn_color="#66bb6a",
                 text="保存并切换",
                 font_name=config.FONT_DEFAULT,
-                background_normal="",
-                background_color=hex_to_rgba("#66bb6a"),
                 color=(1, 1, 1, 1),
                 font_size=dp(11),
-                bold=True,
             )
             btns.add_widget(btn_save_switch)
         btns.add_widget(btn_confirm)
@@ -341,22 +320,20 @@ class AppTabMixin:
         content.add_widget(name_input)
 
         btns = BoxLayout(size_hint_y=None, height=dp(44), spacing=dp(10), padding=(dp(8), 0))
-        btn_cancel = Button(
+        btn_cancel = RoundedButton(
+            btn_color="#78909c",
             text="取消",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#78909c"),
             color=(1, 1, 1, 1), font_size=dp(12),
         )
-        btn_confirm = Button(
+        btn_confirm = RoundedButton(
+            btn_color="#42a5f5",
             text="确认",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#42a5f5"),
-            color=(1, 1, 1, 1), font_size=dp(12), bold=True,
+            color=(1, 1, 1, 1), font_size=dp(12),
         )
         btns.add_widget(btn_cancel)
         btns.add_widget(btn_confirm)
-        content.add_widget(btns)
-        content.add_widget(Widget(size_hint_y=1))
 
         popup = Popup(
             title="重命名剧本",
@@ -431,14 +408,14 @@ class AppTabMixin:
         content.add_widget(name_input)
 
         btns_row = BoxLayout(size_hint_y=None, height=dp(40), spacing=dp(8))
-        cancel_btn = Button(
+        cancel_btn = RoundedButton(
+            btn_color="#90a4ae",
             text="取消", size_hint_y=1, size_hint_x=1,
-            background_normal="", background_color=hex_to_rgba("#90a4ae"),
             color=(1, 1, 1, 1), font_size=dp(13),
         )
-        confirm_btn = Button(
+        confirm_btn = RoundedButton(
+            btn_color="#66bb6a",
             text="创建", size_hint_y=1, size_hint_x=1,
-            background_normal="", background_color=hex_to_rgba("#66bb6a"),
             color=(1, 1, 1, 1), font_size=dp(13),
         )
         btns_row.add_widget(cancel_btn)
@@ -578,14 +555,16 @@ class AppTabMixin:
                 )
                 self._profile_spinner.text = active_display
         popup.bind(on_dismiss=_on_dismiss)
-        cancel_btn = Button(
-            text="取消", background_normal="", background_color=hex_to_rgba("#90a4ae"),
+        cancel_btn = RoundedButton(
+            btn_color="#90a4ae",
+            text="取消",
             color=(1, 1, 1, 1), font_size=dp(13),
         )
         cancel_btn.bind(on_release=popup.dismiss)
-        confirm_btn = Button(
-            text="确定删除", background_normal="", background_color=hex_to_rgba("#ef5350"),
-            color=(1, 1, 1, 1), font_size=dp(13), bold=True,
+        confirm_btn = RoundedButton(
+            btn_color="#ef5350",
+            text="确定删除",
+            color=(1, 1, 1, 1), font_size=dp(13),
         )
         confirm_btn.bind(on_release=do_delete)
         btn_row.add_widget(cancel_btn)
@@ -703,31 +682,29 @@ class AppTabMixin:
             font_size=dp(13),
         ))
         btns = BoxLayout(size_hint_y=None, height=dp(44), spacing=dp(8), padding=(dp(8), 0))
-        btn_cancel = Button(
+        btn_cancel = RoundedButton(
+            btn_color="#78909c",
             text="取消",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#78909c"),
             color=(1, 1, 1, 1), font_size=dp(11),
         )
         btns.add_widget(btn_cancel)
 
         if has_unsaved:
-            btn_save_read = Button(
+            btn_save_read = RoundedButton(
+                btn_color="#66bb6a",
                 text="保存并读取",
                 font_name=config.FONT_DEFAULT,
-                background_normal="",
-                background_color=hex_to_rgba("#66bb6a"),
                 color=(1, 1, 1, 1),
                 font_size=dp(11),
-                bold=True,
             )
             btns.add_widget(btn_save_read)
 
-        btn_confirm = Button(
+        btn_confirm = RoundedButton(
+            btn_color="#ff8a65",
             text="读取",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#ff8a65"),
-            color=(1, 1, 1, 1), font_size=dp(11), bold=True,
+            color=(1, 1, 1, 1), font_size=dp(11),
         )
         btns.add_widget(btn_confirm)
         content.add_widget(btns)
@@ -795,17 +772,17 @@ class AppTabMixin:
         content.add_widget(name_input)
 
         btns = BoxLayout(size_hint_y=None, height=dp(44), spacing=dp(10), padding=(dp(8), 0))
-        btn_cancel = Button(
+        btn_cancel = RoundedButton(
+            btn_color="#78909c",
             text="取消",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#78909c"),
             color=(1, 1, 1, 1), font_size=dp(12),
         )
-        btn_confirm = Button(
+        btn_confirm = RoundedButton(
+            btn_color="#42a5f5",
             text="确认",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#42a5f5"),
-            color=(1, 1, 1, 1), font_size=dp(12), bold=True,
+            color=(1, 1, 1, 1), font_size=dp(12),
         )
         btns.add_widget(btn_cancel)
         btns.add_widget(btn_confirm)
@@ -865,17 +842,17 @@ class AppTabMixin:
             font_size=dp(13),
         ))
         btns = BoxLayout(size_hint_y=None, height=dp(44), spacing=dp(12), padding=(dp(16), 0))
-        btn_cancel = Button(
+        btn_cancel = RoundedButton(
+            btn_color="#78909c",
             text="取消",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#78909c"),
             color=(1, 1, 1, 1), font_size=dp(12),
         )
-        btn_confirm = Button(
+        btn_confirm = RoundedButton(
+            btn_color="#ef5350",
             text="删除",
             font_name=config.FONT_DEFAULT,
-            background_normal="", background_color=hex_to_rgba("#ef5350"),
-            color=(1, 1, 1, 1), font_size=dp(12), bold=True,
+            color=(1, 1, 1, 1), font_size=dp(12),
         )
         btns.add_widget(btn_cancel)
         btns.add_widget(btn_confirm)
