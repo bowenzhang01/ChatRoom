@@ -493,10 +493,10 @@ class DormApp(App):
     # ═══════════════════════════════════════════
 
     def _get_effective_order(self):
-        """v0.6.5: 获取当前模式下的有效发言顺序（含用户角色）"""
-        if self.user_mode and "You" in self.characters:
-            return self.turn_order + ["You"]
-        return list(self.turn_order)
+        """v0.9.x: 获取当前模式下的有效发言顺序（含用户角色）"""
+        if self.user_mode:
+            return [n for n in self.turn_order if n in self.characters]
+        return [n for n in self.turn_order if n in self.characters and n != "You"]
 
     def _update_mode_buttons(self):
         """刷新模式按钮样式"""
@@ -522,6 +522,9 @@ class DormApp(App):
         self._update_mode_buttons()
         config.app_config.setdefault("app", {})["user_mode"] = self.user_mode
         self._save_config()
+        if self.user_mode and "You" in self.characters and "You" not in self.turn_order:
+            self.turn_order.append("You")
+            self._save_turn_order()
 
     # ═══════════════════════════════════════════
     #  v0.5.1 通用输入栏

@@ -121,14 +121,17 @@ class DataManager:
             for c in app.characters.values()
         }
 
-        # v0.6.5: 过滤发言顺序，只保留存在于当前角色列表中的名字
+        # v0.9.x: 过滤发言顺序，只保留存在于当前角色列表中的名字（含 You）
         valid = set(app.characters.keys())
-        valid.discard("You")
         if hasattr(app, '_raw_turn_order'):
             app.turn_order = [n for n in app._raw_turn_order if n in valid]
             del app._raw_turn_order
         else:
             app.turn_order = [n for n in app.turn_order if n in valid]
+
+        # v0.9.x: 迁移 — 用户模式开启且 You 存在但不在发言顺序中时，自动追加
+        if app.user_mode and "You" in app.characters and "You" not in app.turn_order:
+            app.turn_order.append("You")
 
     # ── Profile 查询 ──
 

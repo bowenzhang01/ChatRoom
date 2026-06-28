@@ -83,17 +83,21 @@ class WorldTabMixin:
         )
         box.add_widget(self._world_input)
 
-        # 发言顺序
-        box.add_widget(Label(
-            text="发言顺序（逗号分隔）：", size_hint_y=None, height=dp(20),
-            halign="left", color=(0.75, 0.70, 0.65, 1), bold=True, font_size=dp(11),
-        ))
-        self._app_order_input = TextInput(
-            text="", multiline=False, size_hint_y=None, height=dp(36),
-            background_color=(1, 1, 1, 1), foreground_color=(0.15, 0.12, 0.10, 1),
-            font_size=dp(12), padding=[dp(10), dp(10), dp(10), dp(10)],
+        # 发言顺序摘要（只读，编辑请切换到"发言"标签）
+        self._app_order_label = Label(
+            text="", size_hint_y=None, height=dp(28),
+            halign="left", valign="middle",
+            color=(0.55, 0.48, 0.42, 1), font_size=dp(11),
+            text_size=(None, None),
         )
-        box.add_widget(self._app_order_input)
+        row = BoxLayout(size_hint_y=None, height=dp(28), spacing=dp(4))
+        row.add_widget(Label(
+            text="发言顺序：", size_hint_x=None, width=dp(64),
+            halign="left", valign="middle",
+            color=(0.75, 0.70, 0.65, 1), bold=True, font_size=dp(11),
+        ))
+        row.add_widget(self._app_order_label)
+        box.add_widget(row)
 
         box.add_widget(Widget(size_hint_y=None, height=dp(6)))
 

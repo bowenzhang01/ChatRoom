@@ -584,14 +584,16 @@ class AppTabMixin:
         if hasattr(self, '_world_input'):
             wc = self.app._profile_config.get("world", {})
             self._world_input.text = wc.get("setting", "")
-        #  v0.5.3: 用户模式下在显示中追加 You（不存入 config，避免重复）
-        display_order = list(self.app.turn_order)
-        if self.app.user_mode and "You" in self.app.characters and "You" not in display_order:
-            display_order.append("You")
-        self._app_order_input.text = ",".join(display_order)
         self._app_title_input.scroll_x = 0
         self._app_welcome_title.scroll_x = 0
-        self._app_order_input.scroll_x = 0
+        if hasattr(self, '_app_order_label'):
+            effective = self.app._get_effective_order()
+            names = []
+            for n in effective:
+                st = self.app.char_styles.get(n, {})
+                names.append(st.get("name", n))
+            self._app_order_label.text = " \u2192 ".join(names) if names else "(\u65e0)"
+            self._app_order_label.text_size = (self._app_order_label.width - dp(4), None)
 
     def _save_app_settings(self, *args):
         # v0.6.5: 保存到当前剧本的 config.json
@@ -605,16 +607,7 @@ class AppTabMixin:
             "user_mode": self.app.user_mode,
             "display_name": old_app.get("display_name", old_app.get("title", "")),  # v0.8.7: 保留重命名后的名称
         }
-        new_order = [x.strip() for x in self._app_order_input.text.split(",") if x.strip()]
-        #  v0.5.3: 过滤掉 You（运行时动态追加，不存入 config）
-        new_order = [n for n in new_order if n != "You"]
-        # v0.6.5: 校验角色名 — 过滤掉不存在的名字（防止 KeyError 闪退）
-        valid_names = set(self.app.characters.keys())
-        new_order = [n for n in new_order if n in valid_names]
-        if new_order:
-            self.app.turn_order = new_order
-            pc.setdefault("turn", {})["order"] = new_order
-        # 保存到 profile 目录
+        # 保存到 profile 目录（发言顺序在"发言"标签中单独保存）
         wc = pc.get("world", {})
         world_text = self._world_input.text.strip() if hasattr(self, '_world_input') else wc.get("setting", "")
         pc["world"] = {"setting": world_text}

@@ -28,6 +28,7 @@ from ui.settings_tabs._chars import CharsTabMixin
 from ui.settings_tabs._ai import AIMixin
 from ui.settings_tabs._api import APITabMixin
 from ui.settings_tabs._app import AppTabMixin
+from ui.settings_tabs._speak import SpeakTabMixin
 
 
 class SettingsPopup(
@@ -37,6 +38,7 @@ class SettingsPopup(
     AIMixin,
     APITabMixin,
     AppTabMixin,
+    SpeakTabMixin,
     Popup,
 ):
     """设置弹窗 — 框架代码，Tab 逻辑来自 mixin 类"""
@@ -65,6 +67,7 @@ class SettingsPopup(
             ("world", "剧本"),
             ("scenes", "场景"),
             ("chars", "角色"),
+            ("speak", "发言"),
             ("api", "API"),
             ("app", "设置"),
         ]
@@ -175,6 +178,8 @@ class SettingsPopup(
             self._build_scenes_tab()
         elif tab_name == "chars":
             self._build_chars_tab()
+        elif tab_name == "speak":
+            self._build_speak_tab()
         elif tab_name == "api":
             self._build_api_tab()
         elif tab_name == "app":

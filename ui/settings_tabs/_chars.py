@@ -237,8 +237,6 @@ class CharsTabMixin:
             "system_prompt": "你是一个角色，请描述你自己。",
         }
         self.app._save_character(base + ".json", char_data)
-        self.app.turn_order.append(base)
-        self.app._save_turn_order()
         self.app._reload_data()
         self._refresh_char_spinner()
         for i, name in enumerate(self._char_names_list):
